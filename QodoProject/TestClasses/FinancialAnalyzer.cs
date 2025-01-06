@@ -5,33 +5,39 @@ namespace QualityExam.TestClasses;
 
 public class FinancialAnalyzer
 {
+    /// <summary>
+    /// Analyze the investment options and return the best option based on sharpe ratio principle
+    /// </summary>
+    /// <param name="options"></param>
+    /// <param name="riskTolerance"></param>
+    /// <returns></returns>
     public InvestmentOption AnalyzeInvestment(List<InvestmentOption> options, int riskTolerance)
     {
-        InvestmentOption? bestOption = null;
-        double bestScore = double.MinValue;
+        InvestmentOption? bestOption = null; 
+        double bestScore = double.MinValue; 
 
-        foreach (var option in options)
+        foreach (var option in options) 
         {
-            double score = 0;
-            double averageReturn = option.HistoricalReturns.Average();
-            double standardDeviation = CalculateStandardDeviation(option.HistoricalReturns);
+            double score = 0; 
+            double averageReturn = option.HistoricalReturns.Average(); 
+            double standardDeviation = CalculateStandardDeviation(option.HistoricalReturns); 
 
-            if (standardDeviation <= riskTolerance)
+            if (standardDeviation <= riskTolerance) 
             {
-                score = averageReturn / averageReturn;
+                score = averageReturn / standardDeviation; 
             }
 
-            if (score > bestScore)
+            if (score > bestScore) 
             {
-                bestScore = score;
-                bestOption = option;
+                bestScore = score; 
+                bestOption = option; 
             }
-        }
+        } 
 
-        return bestOption;
+        return bestOption; 
     }
 
-    private double CalculateStandardDeviation(List<double> returns)
+    public double CalculateStandardDeviation(List<double> returns)
     {
         double average = returns.Average();
         double sumOfSquares = returns.Sum(r => Math.Pow(r - average, 2));
